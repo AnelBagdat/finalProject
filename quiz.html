@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solar System Quiz</title>
+    <link rel="icon" href="icon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Literata:ital,opsz,wght@0,7..72,200..900;1,7..72,200..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+    <style>
+    
+        
+*{
+    margin: 0;
+    font-family: Literata;
+}
+
+header{
+    max-width: 100%;
+    height: 10vh;
+    background-color:  #66517a;
+    position: fixed; 
+    display: flex;
+    width: 100%;
+}
+nav{
+    display: flex;
+
+}
+.navigation{
+    display: flex;
+    align-items: center;
+
+}
+.navigation li{
+    margin-left: 13vw;
+    font-size: 25px;
+    font-family: Literata;
+    font-weight: 2;
+}
+.navigation a{
+    color: #fff;
+    text-decoration: none;
+}
+.container{
+    display: flex;
+    background-color: rgba(164, 154, 186, 1);
+    height: 570vh;
+    padding-top: 10vh;
+    max-width: 100%;
+}
+
+       
+.quiz-container {
+    max-width: 700px;
+    margin: 5% 30%;
+    background: #ffffff;
+    padding: 60px;
+    border-radius: 8px;
+    box-shadow: 0 10px 6px rgba(0, 0, 0, 0.1);
+    }
+.question {
+    font-size: 1.5em;
+    margin-bottom: 15px;
+    }
+.options {
+    font-size: 1.2em;
+    list-style: none;
+     padding: 0;
+     }
+.options li {
+    margin: 10px 0;
+     }
+button {
+    padding: 10px 20px;
+    font-size: 1em;
+    background-color: #47215b;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    }
+button:hover {
+    background-color: #4b0e4c;
+    }
+.score {
+    font-size: 1.5em;
+     margin-top: 20px;
+    }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            
+            <ul class="navigation" type="none">
+                <li> <a href="index.html">Главная</li></a>
+                <li> <a href="video.html">Видео</li></a>
+                <li> <a href="photo.html">Изображения</li></a>
+                <li><a href="contact.html">Контакты</li></a>
+            </ul>
+        </nav>
+    </header>
+
+
+
+   <div class="container">
+     <div class="quiz-container">
+        <div id="quiz">
+
+        </div>
+        <button id="next">Next</button>
+        <div id="score" class="score" style="display: none;"></div>
+     </div>
+    </div> 
+    <script>
+        const questions = [
+            {
+                question: "Сколько планет в Солнечной системе?",
+                options: [4, 6, 8, 3],
+                correct: 2
+            },
+            {
+                question: "Какая планета ближе всех к Солнцу?",
+                options: ["Меркурий", "Марс", "Сатурн", "Земля"],
+                correct: 0
+            },
+            {
+                question: "Самая большая планета в Солнечной системе?",
+                options: ["Меркурий", "Марс", "Сатурн", "Земля"],
+                correct: 2
+            },
+            {
+                question: "Какая планета зовется Красной планетой?",
+                options: ["Меркурий", "Марс", "Сатурн", "Земля"],
+                correct: 1
+            },
+            {
+                question: "Какой по счету является планета Земля?",
+                options: [1, 2, 3, 4],
+                correct: 2
+            },
+            {
+                question: "Какая планета последняя?",
+                options: ["Сатурн", "Венера", "Уран", "Нептун"],
+                correct: 3
+            },
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+
+        const quizContainer = document.getElementById("quiz");
+        const nextButton = document.getElementById("next");
+        const scoreContainer = document.getElementById("score");
+
+        function showQuestion() {
+            const q = questions[currentQuestion];
+            let optionsHtml = "";
+
+            for (let i = 0; i < q.options.length; i++) {
+                optionsHtml += '<li><label><input type="radio" name="answer" value="' + i + '"> ' + q.options[i] + '</label></li>';
+            }
+
+            quizContainer.innerHTML = '<div class="question">' + q.question + '</div>' +
+                                       '<ul class="options">' + optionsHtml + '</ul>';
+        }
+
+        function checkAnswer() {
+            const answer = document.querySelector("input[name='answer']:checked");
+            if (!answer) { //answer==null
+                alert("Пожалуйста выберите вариант ответа!");
+                return false;
+            }
+
+            if (parseInt(answer.value) === questions[currentQuestion].correct) {
+                score++;
+            }
+
+            return true;
+        }
+
+        nextButton.onclick = function () {
+            if (!checkAnswer()) {
+                return;
+            }
+
+            currentQuestion++;
+
+            if (currentQuestion < questions.length) {
+                showQuestion();
+            } else {
+                quizContainer.innerHTML = '<h2>Тест закончен! Ваши баллы ' + score + '/' + questions.length + '</h2>';
+                nextButton.style.display = "none";
+            }
+        };
+
+        showQuestion();
+    </script>
+</body>
+</html>
